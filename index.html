@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>ESP8266 LED Steuerung</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>LED Steuerung</h1>
+  <button onclick="setLed('ON')">LED AN</button>
+  <button onclick="setLed('OFF')">LED AUS</button>
+  <p>Status: <span id="ledStatus">Unbekannt</span></p>
+
+  <script>
+    const socket = io();
+
+    function setLed(status) {
+      socket.emit('toggle-led', status);
+    }
+
+    socket.on('led-status', (status) => {
+      document.getElementById('ledStatus').textContent = status;
+    });
+  </script>
+</body>
+</html>
